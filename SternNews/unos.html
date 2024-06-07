@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stern</title>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="logo/stern_logo.svg" alt="Stern Logo">
+            </div>
+            <h1 class="logo-title">stern</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a href="kategorija.php?id=politika">Politika</a></li>
+                    <li><a href="kategorija.php?id=tehnologija">Tehnologija</a></li>
+                    <li><a href="kategorija.php?id=znanost">Znanost</a></li>
+                    <li><a href="kategorija.php?id=ostalo">Ostalo</a></li>
+                    <li><a href="administracija.php">Administracija</a></li>
+                    <li><a href="unos.html">Unos novih vijesti</a></li>
+                    <li><a href="login.php">Login</a></li>
+                    <li><a href="registracija.php">Registracija</a></li>
+                </ul>
+            </nav>
+        </header>    
+        <section class="section-unos">
+            <h2>Unos Novih Vijesti</h2>
+            <form enctype="multipart/form-data" name="new-article" action="insert.php" method="post">
+                <div class="form-group">
+                    <span id="porukaTitle" class="bojaPoruke"></span>
+                    <label for="naslov">Naslov:</label>
+                    <input type="text" id="naslov" name="naslov" required>
+                </div>
+                <div class="form-group">
+                    <span id="porukaKategorija" class="bojaPoruke"></span>
+                    <label for="kategorija">Kategorija:</label>
+                    <select id="kategorija" name="kategorija" required>
+                        <option value="" disabled selected>Odabir kategorije</option>
+                        <option value="politika">Politika</option>
+                        <option value="tehnologija">Tehnologija</option>
+                        <option value="znanost">Znanost</option>
+                        <option value="ostalo">Ostalo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <span id="porukaAbout" class="bojaPoruke"></span>
+                    <label for="sazetak">Kratki sadržaj:</label>
+                    <textarea id="sazetak" name="sazetak" rows="10" required></textarea>
+                </div>
+                <div class="form-group">
+                    <span id="porukaContent" class="bojaPoruke"></span>
+                    <label for="sadrzaj">Tekst vijesti:</label>
+                    <textarea id="sadrzaj" name="sadrzaj" rows="10" required></textarea>
+                </div>
+                <div class="form-group">
+                    <span id="porukaSlika" class="bojaPoruke"></span>
+                    <label for="slika">Slika:</label>
+                    <input type="file" id="slika" name="slika">
+                </div>
+                <div class="form-group">
+                    <label for="arhiva">Spremiti u arhivu:</label>
+                    <input type="checkbox" id="arhiva" name="arhiva">
+                </div>
+                <button type="submit" id="slanje">Pošalji</button>
+            </form>
+            <script type="text/javascript">
+                document.getElementById("slanje").onclick = function(event) {
+                    //NASLOV
+                    let slanjeForme = true;
+                    let poljeTitle = document.getElementById("naslov");
+                    let title = document.getElementById("naslov").value;
+                    if(title.length < 5 || title.length > 30){
+                        slanjeForme = false;
+                        poljeTitle.style.border = "1px dashed red";
+                        document.getElementById("porukaTitle").innerHTML="Naslov vjesti mora imati izmedu 5 i 30 znakova!<br>";
+                    }else{
+                        poljeTitle.style.border="1px solid green";
+                        document.getElementById("porukaTitle").innerHTML="";
+                    }
+
+                    //SAZETAK
+                    let poljeAbout = document.getElementById("sazetak");
+                    let about =  document.getElementById("sazetak").value;
+                    if (about.length < 10 || about.length > 100) {
+                        slanjeForme = false;
+                        poljeAbout.style.border="1px dashed red";
+                        document.getElementById("porukaAbout").innerHTML="Kratki sadržaj mora imati između 10 i 100 znakova!<br>";
+                    } else {
+                        poljeAbout.style.border="1px solid green";
+                        document.getElementById("porukaAbout").innerHTML="";
+                    }
+
+                    //SADRZAJ
+                    let poljeContent = document.getElementById("sadrzaj");
+                    let content = document.getElementById("sadrzaj").value;
+                    if (content.length == 0) {
+                        slanjeForme = false;
+                        poljeContent.style.border="1px dashed red";
+                        document.getElementById("porukaContent").innerHTML="Sadržaj mora biti unesen!<br>";
+                    } else {
+                        poljeContent.style.border="1px solid green";
+                        document.getElementById("porukaContent").innerHTML="";
+                    }
+
+                    //SLIKA
+                    let poljeSlika = document.getElementById("slika");
+                    let pphoto = document.getElementById("slika").value;
+                    if (pphoto.length == 0) {
+                        slanjeForme = false;
+                        poljeSlika.style.border="1px dashed red";
+                        document.getElementById("porukaSlika").innerHTML="Slika mora biti unesena!<br>";
+                    } else {
+                        poljeSlika.style.border="1px solid green";
+                        document.getElementById("porukaSlika").innerHTML="";
+                    }
+
+                    //KATEGORIJA
+                    let poljeCategory = document.getElementById("kategorija");
+                    if(document.getElementById("kategorija").selectedIndex == 0) {
+                        slanjeForme = false;
+                        poljeCategory.style.border="1px dashed red";
+
+                        document.getElementById("porukaKategorija").innerHTML="Kategorija mora biti odabrana!<br>";
+                    } else {
+                        poljeCategory.style.border="1px solid green";
+                        document.getElementById("porukaKategorija").innerHTML="";
+                    }
+
+                    if (slanjeForme != true) {
+                        event.preventDefault();
+                    }
+
+                }
+            </script>
+        </section> 
+        <footer>
+            <p>Nachrichten vom 17.05.2019 | © stern.de GmbH | Home</p>
+        </footer>
+    </div>
+</body>
+</html>
